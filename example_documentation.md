@@ -1,0 +1,89 @@
+## R Markdown template for inhouse github documentation
+
+This is an R Markdown document. Markdown is a simple formatting syntax
+for that we most commonly use for authoring HTML, PDF, and MS Word
+documents (for more details on using R Markdown see
+<http://rmarkdown.rstudio.com>).
+
+However, if you want to document your ideas and have that documentation
+be the subject of detailed feedback from collaborators or supervisors,
+then HTML, PDF or MS Word are not ideal formats because: 1) you can’t
+comfortably read the rendered file on github 2) if you want to comment
+the rendered doc, its a further step to link those comments or issues
+back to the source code.
+
+The ideal format would look more like your repo `Readme.md`, which
+renders the formatting of headers, equations, hyperlinks, etc, for human
+eyes right there in the repo. What normal markdown can’t deal with is
+executing code and producing plots but using R Markdown you can specify
+the output to produce a github-flavoured variant of markdown, including
+code, plots, etc.
+
+So how do we do it?
+
+## Set the desired output format
+
+The default output type for `.Rmd` files is `html-document`. Change
+that. In the yaml header block specify that you want markdown using
+`md-document`, and then further specify the variant as follows:
+
+``` r
+---
+title: "documentation about an element of your work"
+output: 
+  md_document:
+    variant: markdown_github
+---
+```
+
+## The rest is automated
+
+Once you make that change then the rest is taken care of. You can write
+your documentation in the R Markdown file and then direct your
+collaborators to read the rendered version on github by linking them to
+the `.md` output.
+
+When you click the **Knit** button a .md document will be generated that
+includes both content as well as the output of any embedded R code
+chunks within the document. You can embed an R code chunk like this:
+
+``` r
+item <- rlnorm(1)
+print(item)
+```
+
+    ## [1] 2.977815
+
+Note that the `echo = FALSE` parameter was added to the code chunk
+defaults to prevent printing of any R code that generates output in any
+other chunks.
+
+You can also embed plots, for example:
+
+``` r
+plot(1)
+```
+
+![](example_documentation_files/figure-markdown_github/plot1-1.png)
+
+## Equations as per usual
+
+As usual, maths notation also works *μ* is mathematical notation
+
+Equation blocks work as per usual
+$$N \sim Pois(\lambda)\\
+exp(\lambda) \gets \alpha + \beta_1 X1 + \beta_2 X2 + \epsilon\_{i,v}$$
+
+## Curious detail for collaborators
+
+Part of the motivation for finding this solution is to include
+documentation within the repo in a form that it can be read on github by
+collaborators.
+
+It is possible (though perhaps not desirable) for a collaborator to
+directly change text in the `.md` doc as you would for the `Readme.md`
+for example. Any changes would be overwritten in a local repo the next
+time the parent `.Rmd` file is knitted. That change would be visible in
+the Diff, though the local repo owner may not be expecting them. For
+that reason, it is probably better for issues to be raised citing the
+`.Rmd` code?
